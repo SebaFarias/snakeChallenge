@@ -1,6 +1,6 @@
 [X] Hacer avanzar cabeza de Serpiente
-[ ] Checkear colisiones con el borde
-[ ] Agregar respawn de Frutas
+[X] Checkear colisiones con el borde
+[X] Agregar respawn de Frutas
 [ ] Agregar cola de serpiente
 [ ] Checkear colisiones con la cola
 [ ] Checkear condicion de Victoria
