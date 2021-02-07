@@ -65,12 +65,14 @@ class Culebra{
   dibujarCola(){
     const squareWidth = width/columns
     const squareHeight = height/rows
-    stroke(30,20,60)
-    fill(0,200,100)
     this.cola.map( pedazo => {
       const x = squareWidth*pedazo[0]
       const y = squareHeight*pedazo[1]
+      stroke('#262626')
+      noFill()
       rect(x,y,squareWidth,squareHeight)
+      fill('#262626')
+      rect(x+squareWidth*0.2,y+squareHeight*0.2,squareWidth*0.6,squareHeight*0.6)
     })
   }
   checkComida(){
@@ -88,7 +90,7 @@ class Fruta{
     const cabeza = [culebra.cabeza.fila,culebra.cabeza.columna]
     const newPos = [Math.round(random(1,rows-1)),Math.round(random(1,columns-1))]
     if( estaEnMiCola(newPos) || newPos === cabeza){
-      return randomPosition()
+      return this.randomPosition()
     } 
     return newPos
   }
@@ -109,7 +111,7 @@ function setup(){
 }
 function draw(){
   if(frames%fpsLimiter===0){
-  background(10);
+  background('#98A682');
   fruta.dibujar()
   culebra.dibujar()
   checkColisiones()
