@@ -148,7 +148,8 @@ function setup(){
 }
 function draw(){
   if(frames%fpsLimiter===0){
-  background('#98A682');
+  background('#9EAD86');
+  dibujarFondo()
   fruta.dibujar()
   culebra.dibujar()
   checkColisiones()
@@ -156,6 +157,21 @@ function draw(){
   culebra.mover()
   }
   frames++
+}
+function dibujarFondo(){
+  const squareWidth = width/columns
+  const squareHeight = height/rows
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < columns; j++) {
+      const x = squareWidth*i
+      const y = squareHeight*j
+      stroke('#99A783')
+      noFill()
+      rect(x,y,squareWidth,squareHeight)
+      fill('#99A783')
+      rect(x+squareWidth*0.2,y+squareHeight*0.2,squareWidth*0.6,squareHeight*0.6)
+    }    
+  }
 }
 function checkColisiones(){
   if(culebra.direccion){
