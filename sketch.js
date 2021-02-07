@@ -96,8 +96,8 @@ class Fruta{
   dibujar(){
     const squareWidth = width/columns
     const squareHeight = height/rows
-    const x = squareWidth*this.posicion[0]- squareWidth/2
-    const y = squareHeight*this.posicion[1] - squareHeight/2
+    const x = squareWidth*this.posicion[0]+ squareWidth/2
+    const y = squareHeight*this.posicion[1] + squareHeight/2
     fill(250,0,200)
     ellipse(x,y,squareWidth,squareHeight)
   }
@@ -123,13 +123,10 @@ function draw(){
 function checkLimites(){
   if(culebra.direccion){
     const proximaCasilla = getCasilla(culebra.direccion)
-    if(proximaCasilla[0] >= rows || proximaCasilla[0] < 0){
-      culebra = new Culebra()
-      fruta = new Fruta(culebra)
-    }
-    if(proximaCasilla[1] >= columns || proximaCasilla[1] < 0){
-      culebra = new Culebra()
-      fruta = new Fruta(culebra)
+    const limiteVertical = proximaCasilla[0] >= rows || proximaCasilla[0] < 0
+    const limiteHorizontal = proximaCasilla[1] >= columns || proximaCasilla[1] < 0
+    if( limiteHorizontal || limiteVertical ){
+      restart()
     }
   }
 }
@@ -156,4 +153,8 @@ function getCasilla( direccion ){
     case 'izquierda':
       return [fila-1,columna]
     }
+}
+function restart(){
+  culebra = new Culebra()
+  fruta = new Fruta(culebra)
 }
