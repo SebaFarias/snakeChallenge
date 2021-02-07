@@ -2,7 +2,7 @@
 [X] Checkear colisiones con el borde
 [X] Agregar respawn de Frutas
 [X] Agregar cola de serpiente
-[ ] Checkear colisiones con la cola
+[X] Checkear colisiones con la cola
 [ ] Checkear condicion de Victoria
 [ ] Agregar contador de Frutas
 [ ] Agregar contador de tiempo

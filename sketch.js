@@ -4,7 +4,6 @@ const direcciones = [ 'arriba', 'derecha', 'abajo', 'izquierda' ]
 const fpsLimiter = 5
 let culebra
 let fruta
-let playing
 let frames
 
 class Culebra{
@@ -68,12 +67,10 @@ class Culebra{
     const squareHeight = height/rows
     stroke(30,20,60)
     fill(0,200,100)
-    this.cola.map( (pedazo,index) => {
-      if(index<this.cola.length){
-        const x = squareWidth*pedazo[0]
-        const y = squareHeight*pedazo[1]
-        rect(x,y,squareWidth,squareHeight)
-      }
+    this.cola.map( pedazo => {
+      const x = squareWidth*pedazo[0]
+      const y = squareHeight*pedazo[1]
+      rect(x,y,squareWidth,squareHeight)
     })
   }
   checkComida(){
@@ -88,10 +85,10 @@ class Fruta{
     this.posicion = this.randomPosition(culebra)
   }
   randomPosition(){
+    const cabeza = [culebra.cabeza.fila,culebra.cabeza.columna]
     const newPos = [Math.round(random(1,rows-1)),Math.round(random(1,columns-1))]
-    if( culebra.cola.indexOf(newPos) !== -1 || 
-    newPos === [culebra.cabeza.fila,culebra.cabeza.columna]){
-      return randomPosition(culebra,[rows,columns])
+    if( estaEnMiCola(newPos) || newPos === cabeza){
+      return randomPosition()
     } 
     return newPos
   }
@@ -107,7 +104,6 @@ class Fruta{
 function setup(){
   createCanvas(400 , 400)
   frames= 0
-  playing = true
   culebra = new Culebra()
   fruta = new Fruta(culebra)
 }
@@ -123,22 +119,23 @@ function draw(){
   frames++
 }
 function checkColisiones(){
-  const cabeza = [culebra.cabeza.fila,culebra.cabeza.columna]
   if(culebra.direccion){
     const proximaCasilla = getCasilla(culebra.direccion)
     const limiteVertical = proximaCasilla[0] >= rows || proximaCasilla[0] < 0
     const limiteHorizontal = proximaCasilla[1] >= columns || proximaCasilla[1] < 0
-    miCuerpo(cabeza) 
-    if( limiteHorizontal || limiteVertical){
+    const propioCuerpo = estaEnMiCola([culebra.cabeza.fila,culebra.cabeza.columna]) 
+    if( limiteHorizontal || limiteVertical || propioCuerpo){
       restart()
     }
   }
 }
-function miCuerpo(){
+function estaEnMiCola( [ fila, columna ] ){
+  let siEsta = false
   culebra.cola.map( pedazo => {
-    if(pedazo[0] === culebra.cabeza.fila && pedazo[1] === culebra.cabeza.columna)
-    restart()
+    if(pedazo[0] === fila && pedazo[1] === columna)
+    siEsta=true
   })
+  return siEsta
 }
 function keyPressed(){
   if( canMove(2,87,38) )// W o arriba 
