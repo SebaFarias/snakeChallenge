@@ -2,6 +2,7 @@ const rows = 40
 const columns = 40
 const direcciones = [ 'arriba', 'derecha', 'abajo', 'izquierda' ]
 const fpsLimiter = 5
+const PRIMARY_COLOR = '#262626'
 let culebra
 let fruta
 let frames
@@ -56,11 +57,43 @@ class Culebra{
   dibujarCabeza(){
     const squareWidth = width/columns
     const squareHeight = height/rows
-    stroke(30,20,60)
-    fill(0,200,100)
+    stroke(PRIMARY_COLOR)
+    noFill()
     const x = squareWidth*this.cabeza.fila
     const y = squareHeight*this.cabeza.columna
     rect(x,y,squareWidth,squareHeight)
+    this.dibujarOjos(x,y,squareWidth,squareHeight)
+  }
+  dibujarOjos(x,y,w,h){
+    if(!this.direccion)return
+    stroke(PRIMARY_COLOR)
+    fill(PRIMARY_COLOR)
+    const horizontal = this.direccion === 'arriba'|| this.direccion === 'abajo'
+    const eyeWidth = horizontal? w*0.2 : w*0.4
+    const eyeHeight = horizontal? h*0.4 : h*0.2
+    switch (this.direccion) {
+      case 'arriba':
+        rect(x+w*0.2,y+h*0.2,eyeWidth,eyeHeight)
+        rect(x+w*0.6,y+h*0.2,eyeWidth,eyeHeight)
+        break;
+      case 'derecha':
+        rect(x+w*0.4,y+h*0.2,eyeWidth,eyeHeight)
+        rect(x+w*0.4,y+h*0.6,eyeWidth,eyeHeight)
+        break;
+      case 'abajo':
+        rect(x+w*0.2,y+h*0.4,eyeWidth,eyeHeight)
+        rect(x+w*0.6,y+h*0.4,eyeWidth,eyeHeight)
+        break;
+      case 'izquierda':
+        rect(x+w*0.2,y+h*0.2,eyeWidth,eyeHeight)
+        rect(x+w*0.2,y+h*0.6,eyeWidth,eyeHeight)
+        break;
+    
+      default:
+        break;
+    }
+
+    
   }
   dibujarCola(){
     const squareWidth = width/columns
@@ -68,10 +101,10 @@ class Culebra{
     this.cola.map( pedazo => {
       const x = squareWidth*pedazo[0]
       const y = squareHeight*pedazo[1]
-      stroke('#262626')
+      stroke(PRIMARY_COLOR)
       noFill()
       rect(x,y,squareWidth,squareHeight)
-      fill('#262626')
+      fill(PRIMARY_COLOR)
       rect(x+squareWidth*0.2,y+squareHeight*0.2,squareWidth*0.6,squareHeight*0.6)
     })
   }
@@ -99,8 +132,12 @@ class Fruta{
     const squareHeight = height/rows
     const x = squareWidth*this.posicion[0]+ squareWidth/2
     const y = squareHeight*this.posicion[1] + squareHeight/2
-    fill(220,50,80)
+    stroke(PRIMARY_COLOR)
+    noFill()
     ellipse(x,y,squareWidth,squareHeight)
+    fill(PRIMARY_COLOR)
+    ellipse(x,y,squareWidth*0.6,squareHeight*0.6)
+    
   }
 }
 function setup(){

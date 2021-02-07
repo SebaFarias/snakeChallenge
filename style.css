@@ -9,7 +9,7 @@ main{
   display: flex;
 }
 canvas {
-  border: 10px solid rgb(30,20,60);
+  border: 10px solid #262626;
   margin: auto;
   display: block;
 }
