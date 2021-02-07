@@ -14,24 +14,26 @@ class Culebra{
       columna: Math.round(random(columns*0.2,columns*0.8)),
       }
     this.direccion = '',
+    this.ultimoMovimiento = '',
     this.cola = []
   }  
   mover(){
     this.moverCola()
     switch (this.direccion) {
       case 'arriba':
-        this.cabeza.fila-- 
-        break;
-      case 'derecha':
-        this.cabeza.columna++ 
-        break;
-      case 'abajo':
-        this.cabeza.fila++ 
-        break;
-      case 'izquierda':
         this.cabeza.columna-- 
         break;
+      case 'derecha':
+        this.cabeza.fila++ 
+        break;
+      case 'abajo':
+        this.cabeza.columna++ 
+        break;
+      case 'izquierda':
+        this.cabeza.fila-- 
+        break;
     }
+    this.ultimoMovimiento = this.direccion
   }
   crecer(){
     const newPedazo = [this.cabeza.fila,this.cabeza.columna]
@@ -98,7 +100,7 @@ class Fruta{
     const squareHeight = height/rows
     const x = squareWidth*this.posicion[0]+ squareWidth/2
     const y = squareHeight*this.posicion[1] + squareHeight/2
-    fill(250,0,200)
+    fill(220,50,80)
     ellipse(x,y,squareWidth,squareHeight)
   }
 }
@@ -114,31 +116,39 @@ function draw(){
   background(10);
   fruta.dibujar()
   culebra.dibujar()
-  checkLimites(culebra)
+  checkColisiones()
   culebra.checkComida()
   culebra.mover()
   }
   frames++
 }
-function checkLimites(){
+function checkColisiones(){
+  const cabeza = [culebra.cabeza.fila,culebra.cabeza.columna]
   if(culebra.direccion){
     const proximaCasilla = getCasilla(culebra.direccion)
     const limiteVertical = proximaCasilla[0] >= rows || proximaCasilla[0] < 0
     const limiteHorizontal = proximaCasilla[1] >= columns || proximaCasilla[1] < 0
-    if( limiteHorizontal || limiteVertical ){
+    const propioCuerpo = culebra.cola.indexOf(cabeza) !== -1
+    if( limiteHorizontal || limiteVertical || propioCuerpo ){
       restart()
     }
   }
 }
 function keyPressed(){
-  if( culebra.direccion !== direcciones[2] && ( keyCode === 65 || keyCode === 37))// W o arriba
+  if( canMove(2,87,38) )// W o arriba 
     return culebra.direccion = direcciones[0]
-  if(culebra.direccion !== direcciones[3] && ( keyCode === 83 || keyCode === 40))// D o derecha
+  if( canMove(3,68,39))// D o derecha
     return culebra.direccion = direcciones[1]
-  if(culebra.direccion !== direcciones[0] && ( keyCode === 68 || keyCode === 39))// S o abajo
+  if( canMove(0,83,40))// S o abajo
     return culebra.direccion = direcciones[2]
-  if(culebra.direccion !== direcciones[1] && ( keyCode === 87 || keyCode === 38)) //A o izquierda
-  return culebra.direccion = direcciones[3]
+  if( canMove(1,65,37) ) //A o izquierda
+    return culebra.direccion = direcciones[3]
+}
+function canMove( opuesto, wasd, flechas ){
+  return ( 
+    culebra.ultimoMovimiento !== direcciones[opuesto] 
+    && ( keyCode === wasd || keyCode === flechas) 
+  )
 }
 function getCasilla( direccion ){
   const fila = culebra.cabeza.fila
