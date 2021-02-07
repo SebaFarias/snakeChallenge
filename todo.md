@@ -6,3 +6,4 @@
 [ ] Checkear condicion de Victoria
 [ ] Agregar contador de Frutas
 [ ] Agregar contador de tiempo
+esto es una prueba de git
