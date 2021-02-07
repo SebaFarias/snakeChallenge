@@ -128,11 +128,17 @@ function checkColisiones(){
     const proximaCasilla = getCasilla(culebra.direccion)
     const limiteVertical = proximaCasilla[0] >= rows || proximaCasilla[0] < 0
     const limiteHorizontal = proximaCasilla[1] >= columns || proximaCasilla[1] < 0
-    const propioCuerpo = culebra.cola.indexOf(cabeza) !== -1
-    if( limiteHorizontal || limiteVertical || propioCuerpo ){
+    miCuerpo(cabeza) 
+    if( limiteHorizontal || limiteVertical){
       restart()
     }
   }
+}
+function miCuerpo(){
+  culebra.cola.map( pedazo => {
+    if(pedazo[0] === culebra.cabeza.fila && pedazo[1] === culebra.cabeza.columna)
+    restart()
+  })
 }
 function keyPressed(){
   if( canMove(2,87,38) )// W o arriba 
