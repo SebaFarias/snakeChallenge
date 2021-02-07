@@ -1,7 +1,7 @@
-const rows = 40
-const columns = 40
+const rows = 20
+const columns = 20
 const direcciones = [ 'arriba', 'derecha', 'abajo', 'izquierda' ]
-const fpsLimiter = 5
+const fpsLimiter = 8
 const PRIMARY_COLOR = '#262626'
 let culebra
 let fruta
