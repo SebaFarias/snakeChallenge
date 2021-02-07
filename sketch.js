@@ -88,7 +88,7 @@ class Fruta{
     const cabeza = [culebra.cabeza.fila,culebra.cabeza.columna]
     const newPos = [Math.round(random(1,rows-1)),Math.round(random(1,columns-1))]
     if( estaEnMiCola(newPos) || newPos === cabeza){
-      return randomPosition()
+      return this.randomPosition()
     } 
     return newPos
   }
